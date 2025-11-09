@@ -1,20 +1,29 @@
-public class EJ01Threads {
-    public static void main(String[] args){
+public class Ej01Threads {
+    public static void main(String[] args) {
         int num_hilos = 8;
-        Thread[] hijos = new Thread[num_hilos];
-        for (int i = 0; i < num_hilos; i++) {
-
+        MiTareaThread[] hilos = new MiTareaThread[num_hilos];
+        for (int i=0;i<num_hilos;i++){
+            hilos[i] = new MiTareaThread();
+            hilos[i].start();
+        }
+        for (int i=0;i<num_hilos;i++){
+            try {
+                hilos[i].join();
+                System.out.println("El programa ha finalizado correctamente");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
-class MITareaConThread extends Thread{
+class MiTareaThread extends Thread {
     public void run() {
-        for(int i = 1; i<=5; i++){
-            System.out.println("Soy el hilo "+ currentThread().threadId());
+        for (int i=1;i<6;i++){
+            System.out.println("Soy el hilo: "+Thread.currentThread().getId()+", mi cont: "+i);
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e){
-                throw  new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }
